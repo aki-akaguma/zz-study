@@ -34,4 +34,38 @@ mod test2 {
         //
         assert_eq!(hello, "hello\n");
     }
+    #[test]
+    fn shell_cat_file() {
+        let output = if cfg!(target_os = "windows") {
+            /*
+            Command::new("cmd")
+                .args(["/C", r#"cat ".\fixtures\text01.txt""#])
+                .output()
+                .expect("failed to execute process")
+            */
+            Command::new("powershell")
+                .args(["-Command", r#"cat ".\fixtures\text01.txt""#])
+                .output()
+                .expect("failed to execute process")
+        } else {
+            Command::new("sh")
+                .arg("-c")
+                .arg("cat \"./fixtures/text01.txt\"")
+                .output()
+                .expect("failed to execute process")
+        };
+        //
+        let err_out = output.stderr;
+        let err_out = String::from_utf8_lossy(&err_out).to_string();
+        #[cfg(windows)]
+        let err_out = err_out.replace("\r\n", "\n");
+        assert_eq!(err_out, "");
+        //
+        let hello = output.stdout;
+        let hello = String::from_utf8_lossy(&hello).to_string();
+        #[cfg(windows)]
+        let hello = hello.replace("\r\n", "\n");
+        //
+        assert_eq!(hello, "abcdefg\nABCDEFG\n");
+    }
 }
