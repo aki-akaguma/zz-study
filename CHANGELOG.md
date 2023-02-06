@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] *
 ### Added
+* `run: pwd` and `run: ls` into `.github/workflows/test-*.yml`
 * `test2::shell_cat_file()`
 * `test2::invoke_shell()`
 * `license`, `authors`, `description`, `keywords`, `categories` into `Cargo.toml`

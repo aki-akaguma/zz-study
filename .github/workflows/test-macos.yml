@@ -28,4 +28,6 @@ jobs:
         with:
           toolchain: ${{matrix.rust}}
           components: rust-src
+      - run: pwd
+      - run: ls
       - run: cargo test
